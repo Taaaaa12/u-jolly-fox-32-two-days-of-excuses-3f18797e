@@ -18,6 +18,8 @@ def main() -> None:
     text = EXCUSE.strip()
     assert 1 <= len(text) <= 200, "excuse must be 1-200 characters"
     assert text == text.strip() and "\n" not in text, "excuse must be one line"
+    # Guard: no control characters, so the single line survives the gate intact.
+    assert all(ord(c) >= 32 for c in text), "excuse must have no control characters"
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8", newline="\n") as f:
         f.write(text + "\n")
